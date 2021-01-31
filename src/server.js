@@ -1,6 +1,7 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const { makeExecutableSchema } = require('graphql-tools');
+const { spawn } = require('child_process');
 const dotenv = require('dotenv');
 const MongoClient = require('mongodb').MongoClient;
 const { typeDefs } = require('./typeDefs');
@@ -30,6 +31,16 @@ client.connect((err) => {
             context: { collection }
         })
     );
+
+    app.get('/update', () => {
+        const updateScript = spawn('python', ['script1.py']);
+        // in close event we are sure that stream from child process is closed
+        updateScript.on('close', (code) => {
+            console.log(`child process close all stdio with code ${code}`);
+            // send data to browser
+            res.send('Update completed.');
+        });
+    });
 
     let server = app.listen(process.env.PORT, () =>
         console.log(`expressed graphql server running on localhost:${process.env.PORT}/`)

@@ -5,3 +5,4 @@ json/charaCard_parsed.json
 helpers/__pycache__
 helpers/setEnv.py
 src/resolvers_db_old.js
+debug.log

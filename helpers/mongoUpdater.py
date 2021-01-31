@@ -20,7 +20,7 @@ def update_mongo_db(from_file):
     if from_file:
         parsed_data = jsonTransform.process_json_from_file()
     else:
-        data = charListDownloader.main()
+        data = charListDownloader.download_char()
         parsed_data = jsonTransform.process_json(data)
 
     bulk_ops = []
